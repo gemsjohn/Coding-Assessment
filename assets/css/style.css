@@ -53,10 +53,13 @@ header {
     flex-direction: column;
     text-align: center;
 }
-#sequence2-content ul {
-    list-style: none;;
+#result {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: yellow;
 }
-
 footer {
     display: flex;
     justify-content: center;

@@ -1,10 +1,9 @@
 // TIMER VARIABLES
 // timeRemaining: sets the initial value
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
-var timeRemaining = 20;
+var timeRemaining = 100;
 var timeRemainingValue = document.querySelector("#timer");
-//timeRemainingValue.textContent = timeRemaining;
-
+timeRemainingValue.textContent = timeRemaining;
 
 // START ASSESSMENT BUTTON
 // We must target the element id="start-assessment" in order to call the onclick and startAssessment functions
@@ -21,9 +20,13 @@ const targetSeq1 = document.getElementById("sequence1-content");
 var sequenceEl = document.querySelector("#sequence2-content");
 var newH1El = document.createElement("h1");
 
+var theResult = document.querySelector("#result");
+var newH3El = document.createElement("h3");
+
 // Links to attribute data-btn-id
 var btnIdCounter = 0;
 
+// Score variable
 var score = 0;
 
 
@@ -31,7 +34,6 @@ var score = 0;
 var questionAnswerOne = ['1.answer1', '1.answer2', '1.answer3', 'Correct'];
 var questionAnswerTwo = ['Correct', '2.answer2', '2.answer3', '2.answer4'];
 var questionAnswerThree = ['3.answer1', '3.answer2', '3.answer3', 'Correct'];
-var questionAnswerFour = ['4.answer1', '4.answer2', '4.answer3', '4.answer4'];
 var newButtons = [];
 
 var page = [0, 0, 0];
@@ -66,6 +68,7 @@ startAssessmentBtn.onclick = function() {
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1(time) {
     page = [1, 0, 0];
+
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -85,12 +88,21 @@ function newPage1(time) {
         newButtons[i].addEventListener('click', function(event) {
             var element = event.target
             var userClicked = element.getAttribute('data-btn-id')
+            
 
             // userClicked must be a choice between 0 and 3
             if (userClicked == 3) {
-                console.log("Correct answer for newPage1");
-                newPage2(time);
+
+                if (timeRemaining > 0){
+                    newPage2(time);
+                } else {
+                    timeRemaining = 0;
+                }
+                
             } else {
+                theResult.textContent = "Incorrect";
+                newH3El.className = "below-choices"
+                theResult.appendChild(newH3El);
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
@@ -106,6 +118,7 @@ function newPage1(time) {
 
 function newPage2(time) {
     page = [0, 1, 0];
+    
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
     for (var i = 0; i < newButtons.length; i++) {
@@ -114,6 +127,9 @@ function newPage2(time) {
         );
         buttonPrevious.remove();
     };
+    theResult.textContent = " ";
+    newH3El.className = "below-choices"
+    theResult.appendChild(newH3El);
 
     newH1El.textContent = "Question 2";
     newH1El.className = "local-header";
@@ -133,9 +149,15 @@ function newPage2(time) {
 
             // userClicked must be a choice between 4 and 7
             if (userClicked == 4) {
-                console.log("Correct answer for newPage2");
-                newPage3(time);
+                if (timeRemaining > 0){
+                    newPage3(time);
+                } else {
+                    timeRemaining = 0;
+                }
             } else {
+                theResult.textContent = "Incorrect";
+                newH3El.className = "below-choices"
+                theResult.appendChild(newH3El);
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
@@ -150,6 +172,9 @@ function newPage2(time) {
 
 function newPage3(time) {
     page = [0, 0, 1];
+    theResult.textContent = " ";
+    newH3El.className = "below-choices"
+    theResult.appendChild(newH3El);
     // FOR LOOP
     // - clears the newButtons array set during newPage2()
     // - currentBtnId variable is neccessary to target the correct id's
@@ -179,9 +204,16 @@ function newPage3(time) {
 
             // userClicked must be a choice between 8 and 11
             if (userClicked == 11) {
-                score = timeRemaining;
+                if (timeRemaining > 0){
+                    score = timeRemaining;
                 timeRemaining = 0;
+                } else {
+                    timeRemaining = 0;
+                }
             } else {
+                theResult.textContent = "Incorrect";
+                newH3El.className = "below-choices"
+                theResult.appendChild(newH3El);
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
@@ -195,7 +227,10 @@ function newPage3(time) {
 };
 
 function endPage() {
-    console.log("GAME OVER, score: " + score);
+    theResult.textContent = " ";
+    newH3El.className = "below-choices"
+    theResult.appendChild(newH3El);
+    
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
     if (page[1, 0, 0]) {
@@ -222,18 +257,14 @@ function endPage() {
             buttonPrevious.remove();
         };
     }
-    
-
-    newH1El.textContent = "GAME OVER";
+    newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 }
 
-
 // Start Assessment
 function startAssessment() {
     newPage1(timeRemaining);
-
 };
 
 // Add even listener to Start Assessment button
