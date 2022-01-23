@@ -8,13 +8,26 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <header>Coding Assessment</header>
+    <header>
+        <div class="h-container">
+            <p>Coding Assessment</p>
+        </div>
+        <div class="h-container">
+            <p class="timer-label">Timer:</p><p id="timer"></p>
+        </div>
+    </header>
     <main>
-        <section class="container">
-            <div class="primary-content">
-                <h1>Codding Assessment</h1>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe ratione molestiae eum illo, reprehenderit quaerat ducimus mollitia obcaecati tempore alias qui corporis hic veniam doloremque, suscipit dolorum soluta! Facilis, voluptate.</p>
-                <button class="btn" id="begin-assessment" type="button">Start Assessment</button>
+        <section id="container1">
+            <div id="sequence1-content">
+                <h1 class="local-header">Codding Assessment</h1>
+                <p>Select Start Assessment to begin.</p>
+                <button class="btn" id="start-assessment">Start Assessment</button>
+            </div>
+            <div id="sequence2-content">
+                <h1 class="local-header"></h1>
+                <ul>
+                    <li class="test"></li>
+                </ul>
             </div>
         </section>
     </main>
