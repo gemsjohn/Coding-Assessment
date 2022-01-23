@@ -1,7 +1,7 @@
 // TIMER VARIABLES
 // timeRemaining: sets the initial value
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
-var timeRemaining = 10;
+var timeRemaining = 100;
 var timeRemainingValue = document.querySelector("#timer");
 
 // START ASSESSMENT BUTTON
@@ -14,7 +14,8 @@ var generateBtn = document.querySelector("#start-assessment");
 // when startAssessmentBtn has been pushed
 const targetSeq1 = document.getElementById("sequence1-content");
 
-
+// SEQUENCE 2 CONTENT <div>
+// These two variables get reused with each newPage function, so they must be global
 var sequenceEl = document.querySelector("#sequence2-content");
 var newH1El = document.createElement("h1");
 
@@ -41,6 +42,7 @@ startAssessmentBtn.onclick = function() {
         timeRemaining = timeRemaining - 1;        
         timeRemainingValue.textContent = timeRemaining;
         if (timeRemaining === 0) {
+            // console.log("uhhh game over");
             clearInterval(interval)
         }
     }, 1000);
@@ -54,13 +56,8 @@ startAssessmentBtn.onclick = function() {
     }
 };
 
-
-
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1() {
-    // console.log("Question 1");
-    // var sequenceEl = document.querySelector("#sequence2-content");
-    // var newH1El = document.createElement("h1");
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -80,13 +77,13 @@ function newPage1() {
         newButtons[i].addEventListener('click', function(event) {
             var element = event.target
             var userClicked = element.getAttribute('data-btn-id')
-            //console.log('userClicked', userClicked)
 
             // userClicked must be a choice between 0 and 3
             if (userClicked == 3) {
                 console.log("Correct answer for newPage1");
                 newPage2();
             } else {
+                timeRemaining = timeRemaining - 10;
                 console.log("Incorrect answer for newPage1")
             }
         });
@@ -102,9 +99,7 @@ function newPage2() {
         );
         buttonPrevious.remove();
     };
-    
-    // var sequenceEl = document.querySelector("#sequence2-content");
-    // var newH1El = document.createElement("h1");
+
     newH1El.textContent = "Question 2";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -120,13 +115,13 @@ function newPage2() {
         newButtons[i].addEventListener('click', function(event) {
             var element = event.target
             var userClicked = element.getAttribute('data-btn-id')
-            //console.log('userClicked', userClicked)
 
             // userClicked must be a choice between 4 and 7
             if (userClicked == 4) {
                 console.log("Correct answer for newPage2");
                 newPage3();
             } else {
+                timeRemaining = timeRemaining - 10;
                 console.log("Incorrect answer for newPage2")
             }
         });
@@ -145,8 +140,6 @@ function newPage3() {
         buttonPrevious.remove();
     };
     
-    // var sequenceEl = document.querySelector("#sequence2-content");
-    // var newH1El = document.createElement("h1");
     newH1El.textContent = "Question 3";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -162,13 +155,13 @@ function newPage3() {
         newButtons[i].addEventListener('click', function(event) {
             var element = event.target
             var userClicked = element.getAttribute('data-btn-id')
-            //console.log('userClicked', userClicked)
 
             // userClicked must be a choice between 8 and 11
             if (userClicked == 11) {
                 // newPage3();
                 console.log("Correct answer for newPage3");
             } else {
+                timeRemaining = timeRemaining - 10;
                 console.log("Incorrect answer for newPage3")
             }
         });
