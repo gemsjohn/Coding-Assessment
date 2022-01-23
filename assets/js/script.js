@@ -51,12 +51,8 @@ startAssessmentBtn.onclick = function() {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
-            
-            // This if statement prevents the endPage() function from being called
-            // a second time if the correct answer is chosen on newPage3()
-            if (page[1, 0, 0] || page[0, 1, 0]) {
-                endPage();
-            };
+
+            endPage();
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
@@ -163,8 +159,9 @@ function newPage2(time) {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
-                } else if (time <= 10 && time > 0) {
+                } else if (time <= 10 && time >= 0) {
                     timeRemaining = 0;
+                    
                 } 
             }
         });
@@ -218,7 +215,7 @@ function newPage3(time) {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
-                } else if (time <= 10 && time > 0) {
+                } else if (time <= 10 && time >= 0) {
                     timeRemaining = 0;
                 } 
             }
@@ -242,7 +239,7 @@ function endPage() {
             );
             buttonPrevious.remove();
         };
-    } else if (page[0, 1, 0]  || page[0, 0, 1]) {
+    } else if (page[0, 1, 0] || page[0, 0, 1]) {
         for (var i = 0; i < newButtons.length; i++) {
             var currentBtnId = i + 4;
             var buttonPrevious = document.querySelector(
