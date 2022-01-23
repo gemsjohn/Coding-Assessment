@@ -1,0 +1,46 @@
+* {
+    background-color: black;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10%;
+}
+
+.primary-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    
+    
+}
+.primary-content h1 {
+    text-align: center;
+}
+.primary-content p {
+    margin: 2vh 35% 2vh 35%;
+}
+
+.btn {
+    outline: none;
+    border: none;
+    padding: 10px 15px;
+    background: purple;
+    font-size: 1.0rem;
+    border-radius: 10px;
+    margin: 2vh 40% 2vh 40%;
+    opacity: 80%;
+}
+
+.btn:hover{
+    opacity: 100%;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
