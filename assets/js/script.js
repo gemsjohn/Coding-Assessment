@@ -1,8 +1,9 @@
 // TIMER VARIABLES
 // timeRemaining: sets the initial value
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
-var timeRemaining = 100;
+var timeRemaining = 20;
 var timeRemainingValue = document.querySelector("#timer");
+
 
 // START ASSESSMENT BUTTON
 // We must target the element id="start-assessment" in order to call the onclick and startAssessment functions
@@ -30,7 +31,7 @@ var questionAnswerThree = ['3.answer1', '3.answer2', '3.answer3', '3.answer4'];
 var questionAnswerFour = ['4.answer1', '4.answer2', '4.answer3', '4.answer4'];
 var newButtons = [];
 
-var page = [0, 0, 0, 0];
+//var page = [0, 0, 0, 0];
 
 
 // When startAssessmentBtn is clicked: 
@@ -41,14 +42,17 @@ startAssessmentBtn.onclick = function() {
     var interval = setInterval(function() {
         timeRemaining = timeRemaining - 1;        
         timeRemainingValue.textContent = timeRemaining;
-        if (timeRemaining === 0) {
-            // console.log("uhhh game over");
-            clearInterval(interval)
+        if (timeRemaining <= 0) {
+            clearInterval(interval);
+            timeRemaining = 0;
+            timeRemainingValue.textContent = timeRemaining;
+            endPage();
+        } else {
+            console.log(timeRemaining);
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
         targetSeq1.style.display = "none";
-        page[0] = 1;
         
     } else {
         targetSeq1.style.display = "flex";
@@ -57,7 +61,7 @@ startAssessmentBtn.onclick = function() {
 };
 
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
-function newPage1() {
+function newPage1(time) {
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -83,10 +87,17 @@ function newPage1() {
                 console.log("Correct answer for newPage1");
                 newPage2();
             } else {
-                timeRemaining = timeRemaining - 10;
+                if (time > 10) {
+                    time = time - 10;
+                    timeRemaining = time;
+                } else if (time <= 10 && time > 0) {
+                    //time = 0;
+                    timeRemaining = 0;
+                } 
                 console.log("Incorrect answer for newPage1")
             }
         });
+        
     };
 };
 
@@ -166,14 +177,28 @@ function newPage3() {
             }
         });
     };
-}
+};
 
+function endPage() {
+    console.log("GAME OVER");
+    // FOR LOOP
+    // - clears the newButtons array set during newPage1()
+    for (var i = 0; i < newButtons.length; i++) {
+        var buttonPrevious = document.querySelector(
+            ".btn[data-btn-id='" + i + "']"
+        );
+        buttonPrevious.remove();
+    };
+
+    newH1El.textContent = "GAME OVER";
+    newH1El.className = "local-header";
+    sequenceEl.appendChild(newH1El);
+}
 
 
 // Start Assessment
 function startAssessment() {
-    newPage1();
-    
+    newPage1(timeRemaining);
 
 };
 
