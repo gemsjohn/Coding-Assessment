@@ -51,8 +51,20 @@ startAssessmentBtn.onclick = function() {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
+            for (var i = 0; i < newButtons.length; i++) {
+                var buttonPrevious = document.querySelector(
+                    ".btn[data-btn-id='" + i + "']"
+                );
+                buttonPrevious.remove();
+            };
+            theResult.textContent = " ";
+            newH3El.className = "below-choices"
+            theResult.appendChild(newH3El);
 
-            endPage();
+            newH1El.textContent = "Assessment Complete, " + "Your Score: " + timeRemaining;
+            newH1El.className = "local-header";
+            sequenceEl.appendChild(newH1El);
+
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
@@ -93,6 +105,7 @@ function newPage1(time) {
             if (userClicked == 3) {
 
                 if (timeRemaining > 0){
+                    
                     newPage2(time);
                 } else {
                     timeRemaining = 0;
@@ -148,6 +161,13 @@ function newPage2(time) {
             // userClicked must be a choice between 4 and 7
             if (userClicked == 4) {
                 if (timeRemaining > 0){
+                    for (var i = 0; i < newButtons.length; i++) {
+                        var currentBtnId = i + 4;
+                        var buttonPrevious = document.querySelector(
+                            ".btn[data-btn-id='" + currentBtnId + "']"
+                        );
+                        buttonPrevious.remove();
+                    };
                     newPage3(time);
                 } else {
                     timeRemaining = 0;
@@ -173,16 +193,6 @@ function newPage3(time) {
     theResult.textContent = " ";
     newH3El.className = "below-choices"
     theResult.appendChild(newH3El);
-    // FOR LOOP
-    // - clears the newButtons array set during newPage2()
-    // - currentBtnId variable is neccessary to target the correct id's
-    for (var i = 0; i < newButtons.length; i++) {
-        var currentBtnId = i + 4;
-        var buttonPrevious = document.querySelector(
-            ".btn[data-btn-id='" + currentBtnId + "']"
-        );
-        buttonPrevious.remove();
-    };
     
     newH1El.textContent = "Question 3";
     newH1El.className = "local-header";
@@ -205,6 +215,15 @@ function newPage3(time) {
                 if (timeRemaining > 0){
                     score = timeRemaining;
                     timeRemaining = 0;
+                    for (var i = 8; i < 12; i++) {
+                        var buttonPrevious = document.querySelector(
+                            ".btn[data-btn-id='" + i + "']"
+                        );
+                        buttonPrevious.remove();
+                    };
+                    newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
+                    newH1El.className = "local-header";
+                    sequenceEl.appendChild(newH1El);
                 } else {
                     timeRemaining = 0;
                 }
@@ -223,42 +242,6 @@ function newPage3(time) {
     };
 };
 
-function endPage() {
-    timeRemaining = 0;
-
-    theResult.textContent = " ";
-    newH3El.className = "below-choices"
-    theResult.appendChild(newH3El);
-
-    // FOR LOOP
-    // - clears the newButtons array set during newPage1()
-    if (page[1, 0, 0]) {
-        for (var i = 0; i < newButtons.length; i++) {
-            var buttonPrevious = document.querySelector(
-                ".btn[data-btn-id='" + i + "']"
-            );
-            buttonPrevious.remove();
-        };
-    } else if (page[0, 1, 0] || page[0, 0, 1]) {
-        for (var i = 0; i < newButtons.length; i++) {
-            var currentBtnId = i + 4;
-            var buttonPrevious = document.querySelector(
-                ".btn[data-btn-id='" + currentBtnId + "']"
-            );
-            buttonPrevious.remove();
-        };
-    } else{
-        for (var i = 8; i < 12; i++) {
-            var buttonPrevious = document.querySelector(
-                ".btn[data-btn-id='" + i + "']"
-            );
-            buttonPrevious.remove();
-        };
-    }
-    newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
-    newH1El.className = "local-header";
-    sequenceEl.appendChild(newH1El);
-}
 
 // Start Assessment
 function startAssessment() {
