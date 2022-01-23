@@ -14,10 +14,9 @@ var generateBtn = document.querySelector("#start-assessment");
 // when startAssessmentBtn has been pushed
 const targetSeq1 = document.getElementById("sequence1-content");
 
-// SEQUENCE 2 CONTENT <button>
+// Links to attribute data-btn-id
 var btnIdCounter = 0;
-const targetButton1 = document.getElementById("btn1");
-targetButton1.style.display = "none";
+
 
 // QUESTION 1 / ANSWERS ARRAY
 var questionAnswerOne = ['1.answer1', '1.answer2', '1.answer3', '1.answer4'];
@@ -54,7 +53,7 @@ startAssessmentBtn.onclick = function() {
 
 
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage function
-function newPage() {
+function newPage1() {
     // console.log("Question 1");
     var sequenceEl = document.querySelector("#sequence2-content");
     var newH1El = document.createElement("h1");
@@ -62,7 +61,10 @@ function newPage() {
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 
-    // FOR LOOP applies unique IDs to each button
+    // FOR LOOP
+    // - applies unique IDs to each button
+    // - addEventListener idenfies each button selected
+    // - when the correct button is selected newPage2 function gets called
     for (var i = 0; i < 4; i++) {
         newButtons[i] = document.createElement("button");
         newButtons[i].textContent = questionAnswerOne[i];
@@ -91,7 +93,7 @@ function newPage2() {
 
 // Start Assessment
 function startAssessment() {
-    newPage();
+    newPage1();
     
 
 };
