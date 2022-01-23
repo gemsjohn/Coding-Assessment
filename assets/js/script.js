@@ -4,6 +4,7 @@
 var timeRemaining = 50;
 var timeRemainingValue = document.querySelector("#timer");
 timeRemainingValue.textContent = timeRemaining;
+var skipInterval = 0;
 
 // START ASSESSMENT BUTTON
 // We must target the element id="start-assessment" in order to call the onclick and startAssessment functions
@@ -36,9 +37,6 @@ var questionAnswerTwo = ['Correct', '2.answer2', '2.answer3', '2.answer4'];
 var questionAnswerThree = ['3.answer1', '3.answer2', '3.answer3', 'Correct'];
 var newButtons = [];
 
-var page = [0, 0, 0];
-
-
 // When startAssessmentBtn is clicked: 
 // - start timer countdown; countdown 1 second at a time
 // - turn off sequence1-content
@@ -47,39 +45,24 @@ startAssessmentBtn.onclick = function() {
     var interval = setInterval(function() {
         timeRemaining = timeRemaining - 1;        
         timeRemainingValue.textContent = timeRemaining;
-        if (timeRemaining <= 0 || score == timeRemaining) {
+        if (timeRemaining <= 0) {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
-            for (var i = 0; i < newButtons.length; i++) {
-                var buttonPrevious = document.querySelector(
-                    ".btn[data-btn-id='" + i + "']"
-                );
-                buttonPrevious.remove();
-            };
-            theResult.textContent = " ";
-            newH3El.className = "below-choices"
-            theResult.appendChild(newH3El);
-
-            newH1El.textContent = "Assessment Complete, " + "Your Score: " + timeRemaining;
-            newH1El.className = "local-header";
-            sequenceEl.appendChild(newH1El);
-
+            if (skipInterval = 0){
+                conclude();
+            }
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
         targetSeq1.style.display = "none";
-        
     } else {
         targetSeq1.style.display = "flex";
-        
     }
 };
 
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1(time) {
-    page = [1, 0, 0];
-
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -103,14 +86,11 @@ function newPage1(time) {
 
             // userClicked must be a choice between 0 and 3
             if (userClicked == 3) {
-
                 if (timeRemaining > 0){
-                    
                     newPage2(time);
                 } else {
-                    timeRemaining = 0;
+                    conclude();
                 }
-                
             } else {
                 theResult.textContent = "Incorrect";
                 newH3El.className = "below-choices"
@@ -118,8 +98,14 @@ function newPage1(time) {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
-                } else if (time <= 10 && time > 0) {
-                    timeRemaining = 0;
+                    timeRemainingValue.textContent = timeRemaining;
+                } else if (time <= 10 && time >= 0) {
+                    skipInterval = 1;
+                    conclude();
+
+                    theResult.textContent = " ";
+                    newH3El.className = "below-choices"
+                    theResult.appendChild(newH3El);
                 } 
             }
         });
@@ -128,8 +114,7 @@ function newPage1(time) {
 };
 
 function newPage2(time) {
-    page = [0, 1, 0];
-    
+
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
     for (var i = 0; i < newButtons.length; i++) {
@@ -161,16 +146,15 @@ function newPage2(time) {
             // userClicked must be a choice between 4 and 7
             if (userClicked == 4) {
                 if (timeRemaining > 0){
-                    for (var i = 0; i < newButtons.length; i++) {
-                        var currentBtnId = i + 4;
+                    for (var i = btnIdCounter - 4; i < btnIdCounter; i++) {
                         var buttonPrevious = document.querySelector(
-                            ".btn[data-btn-id='" + currentBtnId + "']"
+                            ".btn[data-btn-id='" + i + "']"
                         );
                         buttonPrevious.remove();
                     };
                     newPage3(time);
                 } else {
-                    timeRemaining = 0;
+                    conclude();
                 }
             } else {
                 theResult.textContent = "Incorrect";
@@ -179,8 +163,12 @@ function newPage2(time) {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
+                    timeRemainingValue.textContent = timeRemaining;
                 } else if (time <= 10 && time >= 0) {
-                    timeRemaining = 0;
+                    conclude();
+                    theResult.textContent = " ";
+                    newH3El.className = "below-choices"
+                    theResult.appendChild(newH3El);
                     
                 } 
             }
@@ -189,7 +177,7 @@ function newPage2(time) {
 };
 
 function newPage3(time) {
-    page = [0, 0, 1];
+
     theResult.textContent = " ";
     newH3El.className = "below-choices"
     theResult.appendChild(newH3El);
@@ -214,18 +202,10 @@ function newPage3(time) {
             if (userClicked == 11) {
                 if (timeRemaining > 0){
                     score = timeRemaining;
-                    timeRemaining = 0;
-                    for (var i = 8; i < 12; i++) {
-                        var buttonPrevious = document.querySelector(
-                            ".btn[data-btn-id='" + i + "']"
-                        );
-                        buttonPrevious.remove();
-                    };
-                    newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
-                    newH1El.className = "local-header";
-                    sequenceEl.appendChild(newH1El);
+                    conclude();
+
                 } else {
-                    timeRemaining = 0;
+                    conclude();
                 }
             } else {
                 theResult.textContent = "Incorrect";
@@ -234,14 +214,34 @@ function newPage3(time) {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
+                    timeRemainingValue.textContent = timeRemaining;
                 } else if (time <= 10 && time >= 0) {
-                    timeRemaining = 0;
+                    conclude();
+
+                    theResult.textContent = " ";
+                    newH3El.className = "below-choices"
+                    theResult.appendChild(newH3El);
                 } 
             }
         });
     };
 };
 
+function conclude() {
+    timeRemaining = 0;
+    timeRemainingValue.textContent = timeRemaining;
+    for (var i = btnIdCounter - 4; i < btnIdCounter; i++) {
+        var buttonPrevious = document.querySelector(
+            ".btn[data-btn-id='" + i + "']"
+        );
+        buttonPrevious.remove();
+    }
+    
+    newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
+    newH1El.className = "local-header";
+    sequenceEl.appendChild(newH1El);
+
+};
 
 // Start Assessment
 function startAssessment() {
