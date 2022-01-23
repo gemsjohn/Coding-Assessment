@@ -1,7 +1,7 @@
 // TIMER VARIABLES
 // timeRemaining: sets the initial value
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
-var timeRemaining = 100;
+var timeRemaining = 50;
 var timeRemainingValue = document.querySelector("#timer");
 timeRemainingValue.textContent = timeRemaining;
 
@@ -51,9 +51,12 @@ startAssessmentBtn.onclick = function() {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
-            endPage();
-        } else {
-            console.log(timeRemaining);
+            
+            // This if statement prevents the endPage() function from being called
+            // a second time if the correct answer is chosen on newPage3()
+            if (page[1, 0, 0] || page[0, 1, 0]) {
+                endPage();
+            };
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
@@ -109,7 +112,6 @@ function newPage1(time) {
                 } else if (time <= 10 && time > 0) {
                     timeRemaining = 0;
                 } 
-                console.log("Incorrect answer for newPage1")
             }
         });
         
@@ -164,7 +166,6 @@ function newPage2(time) {
                 } else if (time <= 10 && time > 0) {
                     timeRemaining = 0;
                 } 
-                console.log("Incorrect answer for newPage1")
             }
         });
     };
@@ -206,7 +207,7 @@ function newPage3(time) {
             if (userClicked == 11) {
                 if (timeRemaining > 0){
                     score = timeRemaining;
-                timeRemaining = 0;
+                    endPage();
                 } else {
                     timeRemaining = 0;
                 }
@@ -220,17 +221,18 @@ function newPage3(time) {
                 } else if (time <= 10 && time > 0) {
                     timeRemaining = 0;
                 } 
-                console.log("Incorrect answer for newPage1")
             }
         });
     };
 };
 
 function endPage() {
+    timeRemaining = 0;
+
     theResult.textContent = " ";
     newH3El.className = "below-choices"
     theResult.appendChild(newH3El);
-    
+
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
     if (page[1, 0, 0]) {
@@ -248,11 +250,10 @@ function endPage() {
             );
             buttonPrevious.remove();
         };
-    } else {
+    } else{
         for (var i = 8; i < 12; i++) {
-            var currentBtnId = i;
             var buttonPrevious = document.querySelector(
-                ".btn[data-btn-id='" + currentBtnId + "']"
+                ".btn[data-btn-id='" + i + "']"
             );
             buttonPrevious.remove();
         };
