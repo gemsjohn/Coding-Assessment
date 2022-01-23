@@ -61,21 +61,26 @@ function newPage() {
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
-    
+
+    // FOR LOOP applies unique IDs to each button
     for (var i = 0; i < 4; i++) {
-        // newButtons[i] = document.createElement("li");
         newButtons[i] = document.createElement("button");
         newButtons[i].textContent = questionAnswerOne[i];
         newButtons[i].className = "btn";
-        newButtons[i].setAttribute("btn-id", btnIdCounter);
+        newButtons[i].setAttribute("data-btn-id", btnIdCounter);
         sequenceEl.appendChild(newButtons[i]);
         btnIdCounter++;
-    };
-    newButtons[1].onclick = function() {
-        newPage2();
-    };    
 
-        
+        newButtons[i].addEventListener('click', function(event) {
+            var element = event.target
+            var userClicked = element.getAttribute('data-btn-id')
+            console.log('userClicked', userClicked)
+
+            if (userClicked == 3) {
+                newPage2();
+            }
+        });
+    };
 };
 
 function newPage2() {
@@ -86,7 +91,6 @@ function newPage2() {
 
 // Start Assessment
 function startAssessment() {
-    //countdownTimer();
     newPage();
     
 
