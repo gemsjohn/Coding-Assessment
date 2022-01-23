@@ -204,7 +204,7 @@ function newPage3(time) {
             if (userClicked == 11) {
                 if (timeRemaining > 0){
                     score = timeRemaining;
-                    endPage();
+                    timeRemaining = 0;
                 } else {
                     timeRemaining = 0;
                 }
