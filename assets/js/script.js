@@ -3,6 +3,7 @@
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
 var timeRemaining = 20;
 var timeRemainingValue = document.querySelector("#timer");
+//timeRemainingValue.textContent = timeRemaining;
 
 
 // START ASSESSMENT BUTTON
@@ -23,15 +24,17 @@ var newH1El = document.createElement("h1");
 // Links to attribute data-btn-id
 var btnIdCounter = 0;
 
+var score = 0;
+
 
 // QUESTION 1 / ANSWERS ARRAY
-var questionAnswerOne = ['1.answer1', '1.answer2', '1.answer3', '1.answer4'];
-var questionAnswerTwo = ['2.answer1', '2.answer2', '2.answer3', '2.answer4'];
-var questionAnswerThree = ['3.answer1', '3.answer2', '3.answer3', '3.answer4'];
+var questionAnswerOne = ['1.answer1', '1.answer2', '1.answer3', 'Correct'];
+var questionAnswerTwo = ['Correct', '2.answer2', '2.answer3', '2.answer4'];
+var questionAnswerThree = ['3.answer1', '3.answer2', '3.answer3', 'Correct'];
 var questionAnswerFour = ['4.answer1', '4.answer2', '4.answer3', '4.answer4'];
 var newButtons = [];
 
-//var page = [0, 0, 0, 0];
+var page = [0, 0, 0];
 
 
 // When startAssessmentBtn is clicked: 
@@ -42,7 +45,7 @@ startAssessmentBtn.onclick = function() {
     var interval = setInterval(function() {
         timeRemaining = timeRemaining - 1;        
         timeRemainingValue.textContent = timeRemaining;
-        if (timeRemaining <= 0) {
+        if (timeRemaining <= 0 || score == timeRemaining) {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
@@ -62,6 +65,7 @@ startAssessmentBtn.onclick = function() {
 
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1(time) {
+    page = [1, 0, 0];
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -85,13 +89,12 @@ function newPage1(time) {
             // userClicked must be a choice between 0 and 3
             if (userClicked == 3) {
                 console.log("Correct answer for newPage1");
-                newPage2();
+                newPage2(time);
             } else {
                 if (time > 10) {
                     time = time - 10;
                     timeRemaining = time;
                 } else if (time <= 10 && time > 0) {
-                    //time = 0;
                     timeRemaining = 0;
                 } 
                 console.log("Incorrect answer for newPage1")
@@ -101,7 +104,8 @@ function newPage1(time) {
     };
 };
 
-function newPage2() {
+function newPage2(time) {
+    page = [0, 1, 0];
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
     for (var i = 0; i < newButtons.length; i++) {
@@ -130,16 +134,22 @@ function newPage2() {
             // userClicked must be a choice between 4 and 7
             if (userClicked == 4) {
                 console.log("Correct answer for newPage2");
-                newPage3();
+                newPage3(time);
             } else {
-                timeRemaining = timeRemaining - 10;
-                console.log("Incorrect answer for newPage2")
+                if (time > 10) {
+                    time = time - 10;
+                    timeRemaining = time;
+                } else if (time <= 10 && time > 0) {
+                    timeRemaining = 0;
+                } 
+                console.log("Incorrect answer for newPage1")
             }
         });
     };
 };
 
-function newPage3() {
+function newPage3(time) {
+    page = [0, 0, 1];
     // FOR LOOP
     // - clears the newButtons array set during newPage2()
     // - currentBtnId variable is neccessary to target the correct id's
@@ -169,26 +179,50 @@ function newPage3() {
 
             // userClicked must be a choice between 8 and 11
             if (userClicked == 11) {
-                // newPage3();
-                console.log("Correct answer for newPage3");
+                score = timeRemaining;
+                timeRemaining = 0;
             } else {
-                timeRemaining = timeRemaining - 10;
-                console.log("Incorrect answer for newPage3")
+                if (time > 10) {
+                    time = time - 10;
+                    timeRemaining = time;
+                } else if (time <= 10 && time > 0) {
+                    timeRemaining = 0;
+                } 
+                console.log("Incorrect answer for newPage1")
             }
         });
     };
 };
 
 function endPage() {
-    console.log("GAME OVER");
+    console.log("GAME OVER, score: " + score);
     // FOR LOOP
     // - clears the newButtons array set during newPage1()
-    for (var i = 0; i < newButtons.length; i++) {
-        var buttonPrevious = document.querySelector(
-            ".btn[data-btn-id='" + i + "']"
-        );
-        buttonPrevious.remove();
-    };
+    if (page[1, 0, 0]) {
+        for (var i = 0; i < newButtons.length; i++) {
+            var buttonPrevious = document.querySelector(
+                ".btn[data-btn-id='" + i + "']"
+            );
+            buttonPrevious.remove();
+        };
+    } else if (page[0, 1, 0]  || page[0, 0, 1]) {
+        for (var i = 0; i < newButtons.length; i++) {
+            var currentBtnId = i + 4;
+            var buttonPrevious = document.querySelector(
+                ".btn[data-btn-id='" + currentBtnId + "']"
+            );
+            buttonPrevious.remove();
+        };
+    } else {
+        for (var i = 8; i < 12; i++) {
+            var currentBtnId = i;
+            var buttonPrevious = document.querySelector(
+                ".btn[data-btn-id='" + currentBtnId + "']"
+            );
+            buttonPrevious.remove();
+        };
+    }
+    
 
     newH1El.textContent = "GAME OVER";
     newH1El.className = "local-header";
