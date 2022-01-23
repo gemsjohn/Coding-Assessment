@@ -14,6 +14,10 @@ var generateBtn = document.querySelector("#start-assessment");
 // when startAssessmentBtn has been pushed
 const targetSeq1 = document.getElementById("sequence1-content");
 
+
+var sequenceEl = document.querySelector("#sequence2-content");
+var newH1El = document.createElement("h1");
+
 // Links to attribute data-btn-id
 var btnIdCounter = 0;
 
@@ -52,11 +56,11 @@ startAssessmentBtn.onclick = function() {
 
 
 
-// Selecting startAssessmentBtn calls the startAssessment function which calls newPage function
+// Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1() {
     // console.log("Question 1");
-    var sequenceEl = document.querySelector("#sequence2-content");
-    var newH1El = document.createElement("h1");
+    // var sequenceEl = document.querySelector("#sequence2-content");
+    // var newH1El = document.createElement("h1");
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
@@ -76,17 +80,99 @@ function newPage1() {
         newButtons[i].addEventListener('click', function(event) {
             var element = event.target
             var userClicked = element.getAttribute('data-btn-id')
-            console.log('userClicked', userClicked)
+            //console.log('userClicked', userClicked)
 
+            // userClicked must be a choice between 0 and 3
             if (userClicked == 3) {
+                console.log("Correct answer for newPage1");
                 newPage2();
+            } else {
+                console.log("Incorrect answer for newPage1")
             }
         });
     };
 };
 
 function newPage2() {
-    console.log("Question 2");
+    // FOR LOOP
+    // - clears the newButtons array set during newPage1()
+    for (var i = 0; i < newButtons.length; i++) {
+        var buttonPrevious = document.querySelector(
+            ".btn[data-btn-id='" + i + "']"
+        );
+        buttonPrevious.remove();
+    };
+    
+    // var sequenceEl = document.querySelector("#sequence2-content");
+    // var newH1El = document.createElement("h1");
+    newH1El.textContent = "Question 2";
+    newH1El.className = "local-header";
+    sequenceEl.appendChild(newH1El);
+
+    for (var i = 0; i < 4; i++) {
+        newButtons[i] = document.createElement("button");
+        newButtons[i].textContent = questionAnswerTwo[i];
+        newButtons[i].className = "btn";
+        newButtons[i].setAttribute("data-btn-id", btnIdCounter);
+        sequenceEl.appendChild(newButtons[i]);
+        btnIdCounter++;
+
+        newButtons[i].addEventListener('click', function(event) {
+            var element = event.target
+            var userClicked = element.getAttribute('data-btn-id')
+            //console.log('userClicked', userClicked)
+
+            // userClicked must be a choice between 4 and 7
+            if (userClicked == 4) {
+                console.log("Correct answer for newPage2");
+                newPage3();
+            } else {
+                console.log("Incorrect answer for newPage2")
+            }
+        });
+    };
+};
+
+function newPage3() {
+    // FOR LOOP
+    // - clears the newButtons array set during newPage2()
+    // - currentBtnId variable is neccessary to target the correct id's
+    for (var i = 0; i < newButtons.length; i++) {
+        var currentBtnId = i + 4;
+        var buttonPrevious = document.querySelector(
+            ".btn[data-btn-id='" + currentBtnId + "']"
+        );
+        buttonPrevious.remove();
+    };
+    
+    // var sequenceEl = document.querySelector("#sequence2-content");
+    // var newH1El = document.createElement("h1");
+    newH1El.textContent = "Question 3";
+    newH1El.className = "local-header";
+    sequenceEl.appendChild(newH1El);
+
+    for (var i = 0; i < 4; i++) {
+        newButtons[i] = document.createElement("button");
+        newButtons[i].textContent = questionAnswerThree[i];
+        newButtons[i].className = "btn";
+        newButtons[i].setAttribute("data-btn-id", btnIdCounter);
+        sequenceEl.appendChild(newButtons[i]);
+        btnIdCounter++;
+
+        newButtons[i].addEventListener('click', function(event) {
+            var element = event.target
+            var userClicked = element.getAttribute('data-btn-id')
+            //console.log('userClicked', userClicked)
+
+            // userClicked must be a choice between 8 and 11
+            if (userClicked == 11) {
+                // newPage3();
+                console.log("Correct answer for newPage3");
+            } else {
+                console.log("Incorrect answer for newPage3")
+            }
+        });
+    };
 }
 
 
