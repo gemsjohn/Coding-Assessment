@@ -60,6 +60,16 @@ header {
     text-align: center;
     color: yellow;
 }
+
+input {
+    outline: none;
+    border: none;
+    margin: 2vh 40% 2vh 40%;
+    font-size: 2.2rem;
+    border: 2px solid gray;
+    border-radius: 12px;
+}
+
 footer {
     display: flex;
     justify-content: center;
