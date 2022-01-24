@@ -1,7 +1,7 @@
 // TIMER VARIABLES
 // timeRemaining: sets the initial value
 // timeRemainingValue: targets the <p id="timer"></p> portion of the <header>
-var timeRemaining = 5;
+var timeRemaining = 20;
 var timeRemainingValue = document.querySelector("#timer");
 timeRemainingValue.textContent = timeRemaining;
 var skipInterval = 0;
@@ -10,6 +10,7 @@ var skipInterval = 0;
 // We must target the element id="start-assessment" in order to call the onclick and startAssessment functions
 const startAssessmentBtn = document.getElementById("start-assessment");
 var generateBtn = document.querySelector("#start-assessment");
+var newStartButton = document.getElementById("start-assessment");
 
 // SEQUENCE 1 CONTENT <div>
 // We must target the element id="sequence1-content" in order toggle display off
@@ -40,6 +41,13 @@ var storage = {
 
 var submitAttempt = 0;
 
+var round = 0;
+
+
+var initialsBox = document.createElement("input");
+var submit = document.createElement("button");
+var startOver = document.createElement("button");
+var initials = null;
 
 
 // QUESTION 1 / ANSWERS ARRAY
@@ -67,13 +75,16 @@ startAssessmentBtn.onclick = function() {
     }, 1000);
     if (targetSeq1.style.display !== "none") {
         targetSeq1.style.display = "none";
-    } else {
+    } else if (round < 1) {
         targetSeq1.style.display = "flex";
     }
 };
 
 // Selecting startAssessmentBtn calls the startAssessment function which calls newPage1 function
 function newPage1(time) {
+    if (round > 0) {
+        sequenceEl.removeChild(newStartButton);
+    }
     
     newH1El.textContent = "Question 1";
     newH1El.className = "local-header";
@@ -114,10 +125,6 @@ function newPage1(time) {
                 } else if (time <= 10 && time >= 0) {
                     skipInterval = 1;
                     conclude();
-
-                    theResult.textContent = " ";
-                    newH3El.className = "below-choices"
-                    theResult.appendChild(newH3El);
                 }
                 
             }
@@ -182,10 +189,6 @@ function newPage2(time) {
                 } else if (time <= 10 && time >= 0) {
                     skipInterval = 1;
                     conclude();
-                    theResult.textContent = " ";
-                    newH3El.className = "below-choices"
-                    theResult.appendChild(newH3El);
-                    
                 } 
             }
         });
@@ -236,9 +239,6 @@ function newPage3(time) {
                 } else if (time <= 10 && time >= 0) {
                     conclude();
 
-                    theResult.textContent = " ";
-                    newH3El.className = "below-choices"
-                    theResult.appendChild(newH3El);
                 } 
             }
         });
@@ -246,6 +246,9 @@ function newPage3(time) {
 };
 
 function conclude() {
+    theResult.textContent = " ";
+    newH3El.className = "below-choices"
+    theResult.appendChild(newH3El);
     timeRemaining = 0;
     timeRemainingValue.textContent = timeRemaining;
     for (var i = btnIdCounter - 4; i < btnIdCounter; i++) {
@@ -264,106 +267,66 @@ function conclude() {
 
 };
 
-
-
-var initialsBox = document.createElement("input");
-var submit = document.createElement("button");
-var startOver = document.createElement("button");
-var initials = "";
-
 function storeHighScores() {
-    
     submit.textContent = "SUBMIT";
     submit.className = "btn";
     submit.setAttribute("data-scores", submitCounter);
-    
     sequenceEl.appendChild(initialsBox);
     sequenceEl.appendChild(submit);
-    
 
-    
     submit.addEventListener('click', function(event) {
         var element = event.target
         var userClicked = element.getAttribute('data-scores')
-        var initials = document.querySelector("input").value;
-        if (userClicked == 0 && initials) {
+        if (userClicked == submitCounter) {
             submitCounter++;
-            displayHighScores();
-            
-        } else {
-            alert("You must enter your name or initials.");
+            displayHighScores(); 
         }
     });
-
-    
-    
 };
 
 function displayHighScores() {
-    
-    var initials = document.querySelector("input").value;
-    //submitCounter--;
     sequenceEl.removeChild(initialsBox);
     sequenceEl.removeChild(submit);
+    sequenceEl.removeChild(newH1El);
     storage.name = initials;
-
     storage.value = score;
+
     localStorage.setItem('storage', JSON.stringify(storage));
+    var storageFromLS = JSON.parse(localStorage.getItem('storage'));
+    highScores.push(storageFromLS);
+    console.log(highScores);
+    localStorage.setItem('highScores', JSON.stringify(highScores));
     
-    
-
     for (var i = 0; i < submitCounter; i++) {
-        var storageFromLS = JSON.parse(localStorage.getItem('storage'));
-
-        highScores.push(storageFromLS);
-        console.log(highScores[i]);
-
         var addInitials = document.createElement("h3");
         addInitials.textContent = highScores[i].name + " " + highScores[i].value;
-        addInitials.className = "initials";
+        addInitials.className = "local-header";
         sequenceEl.appendChild(addInitials);
-    }
-
-    restartAssessment();    
+    };
     
-    
-    
-}
-
-function restartAssessment() {
     startOver.textContent = "Restart Assessment";
     startOver.className = "btn";
     startOver.setAttribute("data-start-over", "new");
     sequenceEl.appendChild(startOver);
     startOver.addEventListener('click', function(event) {
         var element = event.target;
-        var userClicked = element.getAttribute('data-start-over')
-
+        var userClicked = element.getAttribute('data-start-over');
         if (userClicked == "new") {
+            sequenceEl.removeChild(addInitials);
             sequenceEl.removeChild(startOver);
-        }
-    });
-}
-
-// function storeHighScores() {
-//     var addInitials = document.createElement("h3");
-//     addInitials.textContent = prompt("Enter your initials");
-//     addInitials.className = "initials";
-//     addInitials.setAttribute("data-initials", initialIdCounter);
-//     sequenceEl.appendChild(addInitials);
-
+            
+            timeRemaining = 20;
+            timeRemainingValue.textContent = timeRemaining;
+            btnIdCounter = 0;
+            round++;
+            var newStartButton = document.getElementById("start-assessment");
+            sequenceEl.appendChild(newStartButton);
+            
+        };
+    });  
     
-
-
-//     for (var i = 0; i < scoreIdCounter; i++) {
-//         highScores[i] = document.createElement("h3");
-//         highScores[i].textContent = score;
-//         highScores[i].className = "score";
-//         highScores[i].setAttribute("data-score", scoreIdCounter);
-//         sequenceEl.appendChild(highScores[i]);
-//     }
-
-// };
+    
+};
 
 // Start Assessment
 function startAssessment() {
