@@ -21,4 +21,15 @@
 - Time-based Event
 - Variables
 
-## Mockup Image
+## Mockup Images
+
+[John Martin - Coding Assessment Website](https://gemsjohn.github.io/Coding-Assessment/)
+
+### Initial Page
+![Coding Assessment - Initial Page](https://github.com/gemsjohn/Coding-Assessment/blob/main/assets/images/coding_assessment_initial.png)
+
+### Questionnaire Page
+![Coding Assessment - Questionnaire Page](https://github.com/gemsjohn/Coding-Assessment/blob/main/assets/images/codeing_assessment_question.png)
+
+### Submission Page
+![Coding Assessment - Submission Page](https://github.com/gemsjohn/Coding-Assessment/blob/main/assets/images/coding_assessment_submission.png)
