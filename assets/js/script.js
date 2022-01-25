@@ -45,9 +45,9 @@ var submit = document.createElement("button");
 
 // Answer array
 var answers = [
-    {0:'answer1', 1:'answer2', 2:'answer3', 3:'Correct'},
-    {0:'Correct', 1:'answer2', 2:'answer3', 3:'answer4'},
-    {0:'answer1', 1:'answer2', 2:'answer3', 3:'Correct'}
+    {0:'Red', 1:'Green', 2:'Blue', 3:'White'},
+    {0:'Green', 1:'White', 2:'Red', 3:'Yellow'},
+    {0:'Black', 1:'Blue', 2:'Green', 3:'Red'}
 ];
 
 // Supplemental arrays
@@ -77,7 +77,8 @@ startAssessmentBtn.onclick = function() {
 
 function newPage1(time) {
     // Apply the new header
-    newH1El.textContent = "Question 1";
+    newH1El.textContent = "What color is this text written in?";
+    newH1El.style.color = "white";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 
@@ -134,7 +135,8 @@ function newPage2(time) {
     theResult.appendChild(newH3El);
 
     // Apply the new header
-    newH1El.textContent = "Question 2";
+    newH1El.textContent = "What color is this text written in?";
+    newH1El.style.color = "mediumseagreen";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 
@@ -192,7 +194,8 @@ function newPage3(time) {
     theResult.appendChild(newH3El);
     
     // Apply the new header
-    newH1El.textContent = "Question 3";
+    newH1El.textContent = "What color is this text written in?";
+    newH1El.style.color = "red";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 
@@ -240,7 +243,7 @@ function newPage3(time) {
 };
 
 function conclude() {
-    if (success == 0) {
+    if (success === 0) {
         score = 0;
     }
     // Clear Inccorect result notifications as needed
@@ -261,6 +264,7 @@ function conclude() {
     
     // Apply the new header
     newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
+    newH1El.style.color = "white";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
 
@@ -356,6 +360,7 @@ function displayHighScores() {
 
 // Start Assessment
 function startAssessment() {
+    success = 0;
     newPage1(timeRemaining);
 };
 
