@@ -262,8 +262,11 @@ function conclude() {
         var buttonPrevious = document.querySelector(
             ".btn[data-btn-id='" + i + "']"
         );
-        buttonPrevious.remove();
-    }
+        if (buttonPrevious) {
+            buttonPrevious.remove();
+        }
+        
+    };
     
     // Apply the new header
     newH1El.textContent = "Assessment Complete, " + "Your Score: " + score;
