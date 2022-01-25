@@ -42,6 +42,8 @@ header {
     border-radius: 10px;
     margin: 2vh 40% 2vh 40%;
     opacity: 80%;
+    display: flex;
+    justify-content: center;
 }
 
 .btn:hover{

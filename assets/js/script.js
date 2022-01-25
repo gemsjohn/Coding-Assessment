@@ -66,6 +66,7 @@ startAssessmentBtn.onclick = function() {
             clearInterval(interval);
             timeRemaining = 0;
             timeRemainingValue.textContent = timeRemaining;
+            conclude();
         }
     }, 1000);
     if (targetSeq1.style.display !== "none") {
@@ -81,6 +82,8 @@ function newPage1(time) {
     newH1El.style.color = "white";
     newH1El.className = "local-header";
     sequenceEl.appendChild(newH1El);
+
+    
 
     // FOR LOOP
     // - applies unique IDs to each button
